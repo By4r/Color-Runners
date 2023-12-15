@@ -23,7 +23,7 @@ namespace Runtime.Controllers.Player
 
         #region Private Variables
 
-        private bool _isColorFailed;
+        private bool _isColorMatchFailed;
 
         private readonly string _obstacle = "Obstacle";
         private readonly string _atm = "ATM";
@@ -189,7 +189,7 @@ namespace Runtime.Controllers.Player
                 }
                 else if (otherColor != playerManager.playerColorType.ToString())
                 {
-                    _isColorFailed = true;
+                    _isColorMatchFailed = true;
 
                     Debug.LogWarning("PLAYER COLOR " + playerColor);
 
@@ -205,6 +205,8 @@ namespace Runtime.Controllers.Player
                 playerManager.SetNormalSpeed();
 
                 Debug.LogWarning("PLAYER SPEED STATE IS NORMAL ! ");
+                
+                ResetColorMatchState();
             }
         }
 
@@ -215,9 +217,9 @@ namespace Runtime.Controllers.Player
             return indexOfParenthesis >= 0 ? fullName.Substring(0, indexOfParenthesis) : fullName;
         }
 
-        private void ResetColorGroundState()
+        private void ResetColorMatchState()
         {
-            _isColorFailed = false;
+            _isColorMatchFailed = false;
         }
     }
 }
