@@ -31,7 +31,9 @@ namespace Runtime.Managers
 
         #region Private Variables
 
-        private ObstacleAttackCommand _obstacleAttackCommand;
+        private ObstacleDroneAttackCommand _obstacleDroneAttackCommand;
+
+        private ObstacleNormalAttackCommand _obstacleNormalAttackCommand;
 
         #endregion
 
@@ -45,7 +47,9 @@ namespace Runtime.Managers
 
         private void Init()
         {
-            _obstacleAttackCommand = new ObstacleAttackCommand(this, droneGameObject);
+            _obstacleDroneAttackCommand = new ObstacleDroneAttackCommand(this, droneGameObject);
+
+            _obstacleNormalAttackCommand = new ObstacleNormalAttackCommand(this);
         }
 
         private void OnEnable()
@@ -55,7 +59,8 @@ namespace Runtime.Managers
 
         private void SubscribeEvents()
         {
-            ObstacleSignals.Instance.onObstacleDroneAttack += _obstacleAttackCommand.Execute;
+            ObstacleSignals.Instance.onObstacleDroneAttack += _obstacleDroneAttackCommand.Execute;
+            ObstacleSignals.Instance.onObstacleNormalAttack += _obstacleNormalAttackCommand.Execute;
             ObstacleSignals.Instance.onObstacleColorMatch += OnObstacleColorMatchState;
         }
 
@@ -64,16 +69,16 @@ namespace Runtime.Managers
             IsColorMatched = state;
         }
 
+        private void UnSubscribeEvents()
+        {
+            ObstacleSignals.Instance.onObstacleDroneAttack -= _obstacleDroneAttackCommand.Execute;
+            ObstacleSignals.Instance.onObstacleNormalAttack -= _obstacleNormalAttackCommand.Execute;
+            ObstacleSignals.Instance.onObstacleColorMatch -= OnObstacleColorMatchState;
+        }
+
         private void OnDisable()
         {
             UnSubscribeEvents();
-        }
-
-        private void UnSubscribeEvents()
-        {
-            ObstacleSignals.Instance.onObstacleDroneAttack -= _obstacleAttackCommand.Execute;
-            ObstacleSignals.Instance.onObstacleColorMatch -= OnObstacleColorMatchState;
-
         }
     }
 }

@@ -7,12 +7,12 @@ using UnityEngine;
 
 namespace Runtime.Commands.Obstacle
 {
-    public class ObstacleAttackCommand
+    public class ObstacleDroneAttackCommand
     {
         private ColorfulObstacleManager _colorfulObstacleManager;
         private GameObject _droneGameObject;
 
-        public ObstacleAttackCommand(ColorfulObstacleManager obstacleManager, GameObject droneGameObject)
+        public ObstacleDroneAttackCommand(ColorfulObstacleManager obstacleManager, GameObject droneGameObject)
         {
             _colorfulObstacleManager = obstacleManager;
             _droneGameObject = droneGameObject;

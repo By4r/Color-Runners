@@ -145,14 +145,16 @@ namespace Runtime.Controllers.Player
 
             if (other.CompareTag(_colorfulObstacle))
             {
-                playerManager.SetSlowSpeed();
+                //playerManager.SetSlowSpeed();
+                
+                playerManager.StaticGroundObstacleState();
 
                 Debug.LogWarning("PLAYER SPEED STATE IS SLOW ! ");
             }
 
             if (other.CompareTag(_colorfulDynamicObstacle))
             {
-                playerManager.DynamicObstacleState();
+                playerManager.DynamicGroundObstacleState();
 
                 Debug.LogWarning("DYNAMIC OBSTACLE !");
             }

@@ -7,6 +7,7 @@ namespace Runtime.Signals
     public class ObstacleSignals : MonoSingleton<ObstacleSignals>
     {
         public UnityAction onObstacleDroneAttack = delegate { };
+        public UnityAction onObstacleNormalAttack = delegate { };
         public UnityAction<bool> onObstacleColorMatch = delegate { };
     }
 }

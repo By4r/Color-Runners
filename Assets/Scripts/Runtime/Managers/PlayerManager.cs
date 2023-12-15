@@ -188,12 +188,22 @@ namespace Runtime.Managers
         }
 
 
-        internal void DynamicObstacleState()
+        internal void DynamicGroundObstacleState()
         {
             DOVirtual.DelayedCall(0.5f, () =>
             {
                 movementController.OnReset();
                 ObstacleSignals.Instance.onObstacleDroneAttack?.Invoke();
+            });
+        }
+
+        internal void StaticGroundObstacleState()
+        {
+            movementController.MoveSlowState(true);
+            
+            DOVirtual.DelayedCall(0.75f, () =>
+            {
+                ObstacleSignals.Instance.onObstacleNormalAttack?.Invoke();
             });
         }
     }
