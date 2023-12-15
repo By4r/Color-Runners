@@ -23,6 +23,7 @@ TagManager:
   - dataCollector
   - Colorful Dynamic
   - Colorful Obstacle
+  - Colorful Ground
   layers:
   - Default
   - TransparentFX

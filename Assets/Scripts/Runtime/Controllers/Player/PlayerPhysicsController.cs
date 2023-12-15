@@ -4,6 +4,7 @@ using Runtime.Commands.Stack;
 using Runtime.Enums;
 using Runtime.Managers;
 using Runtime.Signals;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace Runtime.Controllers.Player
@@ -22,18 +23,37 @@ namespace Runtime.Controllers.Player
 
         #region Private Variables
 
+        private bool _isColorFailed;
+        
         private readonly string _obstacle = "Obstacle";
         private readonly string _atm = "ATM";
         private readonly string _collectable = "Collectable";
         private readonly string _conveyor = "Conveyor";
 
+        #region Color Changer Gates Tags
+
         private readonly string _gateRed = "Gate Red";
         private readonly string _gateBlue = "Gate Blue";
         private readonly string _gateGreen = "Gate Green";
 
-        private readonly string _colorfulObstacle = "Colorful Obstacle";
+        #endregion
 
+        #region Colorful Ground Obstacle Types Tags
+
+        private readonly string _colorfulObstacle = "Colorful Obstacle";
         private readonly string _colorfulDynamicObstacle = "Colorful Dynamic";
+
+        #endregion
+
+        #region Colorful Ground Obstacle Tags
+
+        private readonly string _blueObstacle = "Obstacle Blue";
+        private readonly string _greenObstacle = "Obstacle Green";
+        private readonly string _redObstacle = "Obstacle Red";
+
+        private readonly string _groundObstacle = "Colorful Ground";
+
+        #endregion
 
         #endregion
 
@@ -136,13 +156,36 @@ namespace Runtime.Controllers.Player
                 playerManager.SetSlowSpeed();
 
                 Debug.LogWarning("PLAYER SPEED STATE IS SLOW ! ");
+
+                //&& playerManager.playerColorType.ToString()
             }
 
             if (other.CompareTag(_colorfulDynamicObstacle))
             {
                 playerManager.DynamicObstacleState();
-                
+
+
                 Debug.LogWarning("DYNAMIC OBSTACLE !");
+            }
+
+            if (other.CompareTag(_groundObstacle))
+            {
+                Debug.Log("GROUND OBSTACLE");
+                
+                var otherColor = other.gameObject.GetComponent<MeshRenderer>().materials[0].ToString();
+                
+                Debug.LogWarning("Other Color :" + otherColor);
+
+                if (otherColor == playerManager.playerColorType.ToString())
+                {
+                    Debug.LogWarning("GROUND COLOR SAME !");
+                }
+                else if (otherColor != playerManager.playerColorType.ToString())
+                {
+                    _isColorFailed = true;
+                    
+                    Debug.LogWarning("GROUND COLOR DOESN'T MATCH!");
+                }
             }
         }
 
@@ -154,6 +197,11 @@ namespace Runtime.Controllers.Player
 
                 Debug.LogWarning("PLAYER SPEED STATE IS NORMAL ! ");
             }
+        }
+
+        private void ResetColorGroundState()
+        {
+            _isColorFailed = false;
         }
     }
 }
