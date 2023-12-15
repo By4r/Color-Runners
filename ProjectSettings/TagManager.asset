@@ -1,0 +1,62 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!78 &1
+TagManager:
+  serializedVersion: 2
+  tags:
+  - Obstacle
+  - Collectable
+  - ATM
+  - Conveyor
+  - CollectableUpdater
+  - FakePlayer
+  - Wall
+  - Gate
+  - Collected
+  - MiniGameArea
+  - Gate Blue
+  - Gate Green
+  - Gate Red
+  - Obstacle Blue
+  - Obstacle Green
+  - Obstacle Red
+  - dataCollector
+  - Colorful Dynamic
+  - Colorful Obstacle
+  layers:
+  - Default
+  - TransparentFX
+  - Ignore Raycast
+  - 
+  - Water
+  - UI
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  m_SortingLayers:
+  - name: Default
+    uniqueID: 0
+    locked: 0
