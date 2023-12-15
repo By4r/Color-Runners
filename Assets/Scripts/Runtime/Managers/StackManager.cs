@@ -4,6 +4,7 @@ using Runtime.Commands.Stack;
 using Runtime.Data.UnityObject;
 using Runtime.Data.ValueObject;
 using Runtime.Signals;
+using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -30,6 +31,8 @@ namespace Runtime.Managers
         [SerializeField] private GameObject collectableStickMan;
 
         [SerializeField] private CollectableManager collectableManager;
+
+        [ShowInInspector] private int _currentStickManAmount;
 
         #endregion
 
@@ -144,6 +147,14 @@ namespace Runtime.Managers
         private void OnPlay()
         {
             _stackInitializerCommand.Execute();
+        }
+
+
+        internal void OnSetStackAmount()
+        {
+            _currentStickManAmount = _collectableStack.Count; // ! ( +1 CAN BE ADDE )[+ WITH PLAYER] [OPTIONAL] 
+            
+            PlayerSignals.Instance.onSetStackScore?.Invoke(_currentStickManAmount);
         }
 
 

@@ -34,6 +34,8 @@ namespace Runtime.Commands.Stack
                 _stackManager.StackJumperCommand.Execute(last - 1,
                     last); // Assuming StackJumperCommand needs adjustments
                 _stackManager.StackTypeUpdaterCommand.Execute();
+                
+                _stackManager.OnSetStackAmount();
             }
         }
     }

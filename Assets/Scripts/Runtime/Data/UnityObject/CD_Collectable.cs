@@ -7,7 +7,5 @@ namespace Runtime.Data.UnityObject
     public class CD_Collectable : ScriptableObject
     {
         public CollectableData Data;
-
-        //public CollectableColorData CollectableColorData;
     }
 }

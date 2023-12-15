@@ -41,6 +41,9 @@ namespace Runtime.Commands.Stack
                 //_collectableManager.CollectableAnimRun();
 
             }
+            
+            _stackManager.OnSetStackAmount();
+
         }
     }
 }

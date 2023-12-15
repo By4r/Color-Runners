@@ -92,6 +92,7 @@ namespace Runtime.Managers
             CoreGameSignals.Instance.onReset += OnReset;
 
             PlayerSignals.Instance.onSetTotalScore += OnSetTotalScore;
+            PlayerSignals.Instance.onSetStackScore += OnSetStackScore;
             CoreGameSignals.Instance.onMiniGameEntered += OnMiniGameEntered;
         }
 
@@ -115,7 +116,12 @@ namespace Runtime.Managers
 
         private void OnSetTotalScore(int value)
         {
-            meshController.SetTotalScore(value);
+            //meshController.SetTotalScore(value);
+        }
+
+        private void OnSetStackScore(int value)
+        {
+            meshController.UpdateStackScore(value);
         }
 
         private void OnReset()
@@ -137,6 +143,8 @@ namespace Runtime.Managers
             CoreGameSignals.Instance.onReset -= OnReset;
 
             PlayerSignals.Instance.onSetTotalScore -= OnSetTotalScore;
+            PlayerSignals.Instance.onSetStackScore -= OnSetStackScore;
+
             CoreGameSignals.Instance.onMiniGameEntered -= OnMiniGameEntered;
         }
 

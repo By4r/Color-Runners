@@ -32,7 +32,7 @@ namespace Runtime.Controllers.Player
             _collectableColorData = colorData;
         }
 
-        internal void SetTotalScore(int value)
+        internal void UpdateStackScore(int value)
         {
             scoreText.text = value.ToString();
         }
