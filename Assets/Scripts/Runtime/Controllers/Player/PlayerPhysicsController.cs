@@ -24,7 +24,7 @@ namespace Runtime.Controllers.Player
         #region Private Variables
 
         private bool _isColorFailed;
-        
+
         private readonly string _obstacle = "Obstacle";
         private readonly string _atm = "ATM";
         private readonly string _collectable = "Collectable";
@@ -171,9 +171,16 @@ namespace Runtime.Controllers.Player
             if (other.CompareTag(_groundObstacle))
             {
                 Debug.Log("GROUND OBSTACLE");
-                
-                var otherColor = other.gameObject.GetComponent<MeshRenderer>().materials[0].ToString();
-                
+
+                //var otherColor = other.gameObject.GetComponent<MeshRenderer>().materials[0].ToString();
+                //var otherColor = other.gameObject.GetComponent<MeshRenderer>().materials[0].color.ToString();
+                //var otherColor = other.gameObject.GetComponent<MeshRenderer>().materials[0].name;
+
+                var otherMaterial = other.gameObject.GetComponent<MeshRenderer>().materials[0];
+                var otherColor = CleanUpMaterialName(otherMaterial.name);
+
+                var playerColor = playerManager.playerColorType.ToString();
+
                 Debug.LogWarning("Other Color :" + otherColor);
 
                 if (otherColor == playerManager.playerColorType.ToString())
@@ -183,7 +190,9 @@ namespace Runtime.Controllers.Player
                 else if (otherColor != playerManager.playerColorType.ToString())
                 {
                     _isColorFailed = true;
-                    
+
+                    Debug.LogWarning("PLAYER COLOR " + playerColor);
+
                     Debug.LogWarning("GROUND COLOR DOESN'T MATCH!");
                 }
             }
@@ -197,6 +206,13 @@ namespace Runtime.Controllers.Player
 
                 Debug.LogWarning("PLAYER SPEED STATE IS NORMAL ! ");
             }
+        }
+
+        private string CleanUpMaterialName(string fullName)
+        {
+            // Example cleanup logic, you may need to adjust it based on your naming conventions
+            int indexOfParenthesis = fullName.IndexOf(" (");
+            return indexOfParenthesis >= 0 ? fullName.Substring(0, indexOfParenthesis) : fullName;
         }
 
         private void ResetColorGroundState()
