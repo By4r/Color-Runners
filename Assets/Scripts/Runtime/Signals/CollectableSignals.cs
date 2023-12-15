@@ -8,5 +8,6 @@ namespace Runtime.Signals
     {
         public UnityAction<int> onCollectableUpgrade = delegate { };
         public UnityAction<CollectableAnimationStates> onChangeCollectableAnimationState = delegate { };
+        
     }
 }

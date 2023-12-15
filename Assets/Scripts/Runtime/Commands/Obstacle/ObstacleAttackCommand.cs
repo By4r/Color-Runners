@@ -2,6 +2,7 @@
 using Runtime.Enums;
 using Runtime.Managers;
 using Runtime.Signals;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace Runtime.Commands.Obstacle
@@ -32,10 +33,17 @@ namespace Runtime.Commands.Obstacle
                     _droneGameObject.transform.DOMove(endPoint.position, 2.0f)
                         .OnComplete(() =>
                         {
+                            if (!_colorfulObstacleManager.IsColorMatched)
+                            {
+                                StackSignals.Instance.onInteractionObstacleWithPlayer?.Invoke();
+                                
+                                Debug.LogWarning("DRONE SHOOT !");
+                            }
+                            
                             PlayerSignals.Instance.onPlayConditionChanged?.Invoke(true);
                             PlayerSignals.Instance.onChangePlayerAnimationState?.Invoke(PlayerAnimationStates.Run);
                             
-                            Debug.Log("DRONE ANIMATION COMPLETED!");
+                            Debug.Log("DRONE ACTION COMPLETED!");
                             
                         });
                 });

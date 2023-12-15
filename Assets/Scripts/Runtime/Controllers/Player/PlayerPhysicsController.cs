@@ -45,11 +45,7 @@ namespace Runtime.Controllers.Player
 
         #endregion
 
-        #region Colorful Ground Obstacle Tags
-
-        private readonly string _blueObstacle = "Obstacle Blue";
-        private readonly string _greenObstacle = "Obstacle Green";
-        private readonly string _redObstacle = "Obstacle Red";
+        #region Colorful Ground Obstacle Tag
 
         private readonly string _groundObstacle = "Colorful Ground";
 
@@ -97,16 +93,12 @@ namespace Runtime.Controllers.Player
                         other.tag = "Collected";
                         StackSignals.Instance.onInteractionCollectable?.Invoke(other.transform.parent.gameObject);
                         StackSignals.Instance.onUpdateAnimation?.Invoke();
-                        // CollectableSignals.Instance.onChangeCollectableAnimationState?.Invoke(CollectableAnimationStates
-                        //     .Run);
                     }
                     else
                     {
                         Debug.Log("Color types do not match: " + collectableColorType);
                         StackSignals.Instance.onInteractionObstacleWithPlayer?.Invoke();
                         other.gameObject.SetActive(false);
-                        //other.tag = "Obstacle";
-                        //other.tag = "Collectable";
                     }
                 }
                 else
@@ -156,14 +148,11 @@ namespace Runtime.Controllers.Player
                 playerManager.SetSlowSpeed();
 
                 Debug.LogWarning("PLAYER SPEED STATE IS SLOW ! ");
-
-                //&& playerManager.playerColorType.ToString()
             }
 
             if (other.CompareTag(_colorfulDynamicObstacle))
             {
                 playerManager.DynamicObstacleState();
-
 
                 Debug.LogWarning("DYNAMIC OBSTACLE !");
             }
@@ -171,10 +160,6 @@ namespace Runtime.Controllers.Player
             if (other.CompareTag(_groundObstacle))
             {
                 Debug.Log("GROUND OBSTACLE");
-
-                //var otherColor = other.gameObject.GetComponent<MeshRenderer>().materials[0].ToString();
-                //var otherColor = other.gameObject.GetComponent<MeshRenderer>().materials[0].color.ToString();
-                //var otherColor = other.gameObject.GetComponent<MeshRenderer>().materials[0].name;
 
                 var otherMaterial = other.gameObject.GetComponent<MeshRenderer>().materials[0];
                 var otherColor = CleanUpMaterialName(otherMaterial.name);
@@ -185,7 +170,11 @@ namespace Runtime.Controllers.Player
 
                 if (otherColor == playerManager.playerColorType.ToString())
                 {
+                    _isColorMatchFailed = false;
+                    
                     Debug.LogWarning("GROUND COLOR SAME !");
+                    
+                    ObstacleSignals.Instance.onObstacleColorMatch?.Invoke(!_isColorMatchFailed);
                 }
                 else if (otherColor != playerManager.playerColorType.ToString())
                 {
@@ -194,6 +183,8 @@ namespace Runtime.Controllers.Player
                     Debug.LogWarning("PLAYER COLOR " + playerColor);
 
                     Debug.LogWarning("GROUND COLOR DOESN'T MATCH!");
+                    
+                    ObstacleSignals.Instance.onObstacleColorMatch?.Invoke(!_isColorMatchFailed);
                 }
             }
         }
@@ -205,7 +196,7 @@ namespace Runtime.Controllers.Player
                 playerManager.SetNormalSpeed();
 
                 Debug.LogWarning("PLAYER SPEED STATE IS NORMAL ! ");
-                
+
                 ResetColorMatchState();
             }
         }
@@ -220,6 +211,8 @@ namespace Runtime.Controllers.Player
         private void ResetColorMatchState()
         {
             _isColorMatchFailed = false;
+            
+            ObstacleSignals.Instance.onObstacleColorMatch?.Invoke(!_isColorMatchFailed);
         }
     }
 }

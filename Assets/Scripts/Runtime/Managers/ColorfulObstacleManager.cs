@@ -2,6 +2,7 @@
 using Runtime.Commands.Obstacle;
 using Runtime.Controllers.Obstacles;
 using Runtime.Signals;
+using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.PlayerLoop;
 
@@ -17,8 +18,9 @@ namespace Runtime.Managers
 
         [SerializeField] private GameObject droneGameObject;
 
-        #endregion
+        [ShowInInspector] internal bool IsColorMatched;
 
+        #endregion
 
         #region Drone Path Variables
 
@@ -54,6 +56,12 @@ namespace Runtime.Managers
         private void SubscribeEvents()
         {
             ObstacleSignals.Instance.onObstacleDroneAttack += _obstacleAttackCommand.Execute;
+            ObstacleSignals.Instance.onObstacleColorMatch += OnObstacleColorMatchState;
+        }
+
+        private void OnObstacleColorMatchState(bool state)
+        {
+            IsColorMatched = state;
         }
 
         private void OnDisable()
@@ -64,6 +72,8 @@ namespace Runtime.Managers
         private void UnSubscribeEvents()
         {
             ObstacleSignals.Instance.onObstacleDroneAttack -= _obstacleAttackCommand.Execute;
+            ObstacleSignals.Instance.onObstacleColorMatch -= OnObstacleColorMatchState;
+
         }
     }
 }
