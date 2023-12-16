@@ -110,7 +110,12 @@ namespace Runtime.Managers
 
         private void OnMiniGameEntered()
         {
-            PlayerSignals.Instance.onPlayConditionChanged?.Invoke(false);
+            DOVirtual.DelayedCall(0.25f, () =>
+            {
+                PlayerSignals.Instance.onPlayConditionChanged?.Invoke(false);
+            });
+            
+            //PlayerSignals.Instance.onPlayConditionChanged?.Invoke(false);
             StartCoroutine(WaitForFinal());
         }
 

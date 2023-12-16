@@ -118,6 +118,8 @@ namespace Runtime.Managers
 
                         _mousePosition = Input.mousePosition;
 
+
+                        
                         InputSignals.Instance.onInputDragged?.Invoke(new HorizontalnputParams()
                         {
                             HorizontalInputValue = _moveVector.x,

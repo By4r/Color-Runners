@@ -34,7 +34,7 @@ namespace Runtime.Managers
             ScoreSignals.Instance.onSendMoney += OnSendMoney;
             ScoreSignals.Instance.onGetMoney += () => _money;
             ScoreSignals.Instance.onSetScore += OnSetScore;
-            ScoreSignals.Instance.onSetAtmScore += OnSetAtmScore;
+            //ScoreSignals.Instance.onSetAtmScore += OnSetAtmScore;
             CoreGameSignals.Instance.onMiniGameStart +=
                 () => ScoreSignals.Instance.onSendFinalScore?.Invoke(_scoreCache);
             CoreGameSignals.Instance.onReset += OnReset;
@@ -50,7 +50,7 @@ namespace Runtime.Managers
 
         private void OnSetScore(int setScore)
         {
-            _scoreCache = (setScore * _stackValueMultiplier) + _atmScoreValue;
+            _scoreCache = setScore;
             PlayerSignals.Instance.onSetTotalScore?.Invoke(_scoreCache);
         }
 
@@ -70,7 +70,7 @@ namespace Runtime.Managers
             ScoreSignals.Instance.onSendMoney -= OnSendMoney;
             ScoreSignals.Instance.onGetMoney -= () => _money;
             ScoreSignals.Instance.onSetScore -= OnSetScore;
-            ScoreSignals.Instance.onSetAtmScore -= OnSetAtmScore;
+            //ScoreSignals.Instance.onSetAtmScore -= OnSetAtmScore;
             CoreGameSignals.Instance.onMiniGameStart -=
                 () => ScoreSignals.Instance.onSendFinalScore?.Invoke(_scoreCache);
             CoreGameSignals.Instance.onReset -= OnReset;

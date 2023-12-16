@@ -1,8 +1,12 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using DG.Tweening;
 using Runtime.Controllers.MiniGame;
+using Runtime.Data.UnityObject;
+using Runtime.Data.ValueObject;
 using Runtime.Signals;
+using Sirenix.OdinInspector;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -14,6 +18,8 @@ namespace Runtime.Managers
         #region Self Variables
 
         #region Serialized Veriables
+
+        [ShowInInspector] private GameObject buildingObject;
 
         [SerializeField] private GameObject wallObject;
         [SerializeField] private GameObject fakeMoneyObject;
@@ -31,10 +37,26 @@ namespace Runtime.Managers
         private int _score;
         private float _multiplier;
         private Vector3 _initializePos;
+        private int _scoreThresholdBuilding;
+
+        [ShowInInspector] private List<BuildData> _data;
+
+        private readonly string _buildDataPath = "Data/CD_Build";
 
         #endregion
 
         #endregion
+
+        private void Awake()
+        {
+            _data = GetBuildData();
+
+            _scoreThresholdBuilding = _data[0].buildRequirement;
+        }
+
+
+        private List<BuildData> GetBuildData() => Resources.Load<CD_Build>(_buildDataPath).BuildDataList;
+
 
         private void OnEnable()
         {
@@ -59,16 +81,17 @@ namespace Runtime.Managers
         private IEnumerator GoUp()
         {
             yield return new WaitForSeconds(1f);
-            if (_score == 0)
+            if (_score >= _scoreThresholdBuilding)
             {
-                CoreGameSignals.Instance.onLevelFailed?.Invoke();
+                
+                //CoreGameSignals.Instance.onLevelFailed?.Invoke();
             }
             else
             {
                 fakePlayer.DOLocalMoveY(Mathf.Clamp(_score, 0, 900), 2.7f).SetEase(Ease.Flash).SetDelay(1f);
-                yield return new WaitForSeconds(4.5f);
-                CoreGameSignals.Instance.onLevelSuccessful?.Invoke();
             }
+            yield return new WaitForSeconds(4.5f);
+            CoreGameSignals.Instance.onLevelSuccessful?.Invoke();
         }
 
         internal void SetMultiplier(float multiplierValue)
@@ -101,9 +124,17 @@ namespace Runtime.Managers
 
         private void Start()
         {
-            SpawnWallObjects();
-            SpawnFakeMoneyObjects();
-            Init();
+            buildingObject = _data[0].buildingPrefab;
+            
+            SpawnBuildObjects(buildingObject);
+            //SpawnWallObjects();
+            //SpawnFakeMoneyObjects();
+            //Init();
+        }
+
+        private void SpawnBuildObjects(GameObject buildingGameObject)
+        {
+            var ob = Instantiate(buildingGameObject, transform);
         }
 
         private void Init()

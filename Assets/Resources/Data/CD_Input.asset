@@ -18,3 +18,8 @@ MonoBehaviour:
       x: -5
       y: 5
     HorizontalInputClampStopValue: 0.007
+    VerticalInputSpeed: 2
+    VerticalInputClampNegativeSides:
+      x: -10
+      y: 10
+    VerticalInputClampStopValue: 0.007

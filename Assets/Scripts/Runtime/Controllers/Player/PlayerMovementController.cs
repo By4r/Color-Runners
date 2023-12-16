@@ -147,6 +147,7 @@ namespace Runtime.Controllers.Player
             rigidbody.position = position;
         }
 
+
         internal void MoveSlowState(bool state)
         {
             _isSlowDown = state;
