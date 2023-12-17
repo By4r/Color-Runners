@@ -9,6 +9,6 @@ namespace Runtime.Keys
         public float Money;
         public int IncomeLevel;
         public int StackLevel;
-        public int StackScore;
+        public int MiniGameScore;
     }
 }

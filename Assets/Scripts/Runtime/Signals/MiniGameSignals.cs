@@ -11,5 +11,7 @@ namespace Runtime.Signals
 
         //public UnityAction onMiniGameStart = delegate { };
 
+        public UnityAction<int> onMiniGameSavedScore = delegate { };
+
     }
 }

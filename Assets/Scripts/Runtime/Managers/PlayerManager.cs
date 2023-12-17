@@ -165,6 +165,13 @@ namespace Runtime.Managers
             Vector2 pos = new Vector2(position.x, position.z);
             StackSignals.Instance.onStackFollowPlayer?.Invoke(pos);
         }
+        
+        [Button("SEND MINI SCORE")]
+
+        private void SendMiniScore()
+        {
+            ScoreSignals.Instance.onSendMiniScore?.Invoke(_stackScoreCache);
+        }
 
         private IEnumerator WaitForFinal()
         {
@@ -172,6 +179,7 @@ namespace Runtime.Managers
             yield return new WaitForSeconds(2f);
             gameObject.SetActive(false);
 
+            ScoreSignals.Instance.onSendMiniScore?.Invoke(_stackScoreCache);
             
             ScoreSignals.Instance.onSendFinalScore?.Invoke(_stackScoreCache);
             

@@ -1,6 +1,7 @@
 using Runtime.Keys;
 using Runtime.Signals;
 using UnityEngine;
+using Sirenix.OdinInspector;
 
 namespace Runtime.Managers
 {
@@ -29,27 +30,25 @@ namespace Runtime.Managers
         }
 
         #endregion
+        
 
+        [Button("SAVE DATA ")]
         private void SaveData()
         {
-            Debug.LogWarning(ScoreSignals.Instance.onGetMoney());
+            Debug.LogWarning(ScoreSignals.Instance.onGetMiniScore());
             OnSaveGame(
                 new SaveGameDataParams()
                 {
-                    Money = ScoreSignals.Instance.onGetMoney(),
+                    MiniGameScore = ScoreSignals.Instance.onGetMiniScore(),
                     Level = CoreGameSignals.Instance.onGetLevelID(),
-                    IncomeLevel = CoreGameSignals.Instance.onGetIncomeLevel(),
-                    StackLevel = CoreGameSignals.Instance.onGetStackLevel()
                 }
             );
         }
 
         private void OnSaveGame(SaveGameDataParams saveDataParams)
         {
+            ES3.Save("MiniScore", saveDataParams.MiniGameScore);
             ES3.Save("Level", saveDataParams.Level);
-            ES3.Save("Money", saveDataParams.Money);
-            ES3.Save("IncomeLevel", saveDataParams.IncomeLevel);
-            ES3.Save("StackLevel", saveDataParams.StackLevel);
         }
     }
 }

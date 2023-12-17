@@ -22,7 +22,7 @@ namespace Runtime.Commands.Feature
             _newPriceTag = (int)(CoreGameSignals.Instance.onGetStackLevel() -
                                  ((Mathf.Pow(2, Mathf.Clamp(_stackLevel, 0, 10)) * 100)));
             _stackLevel += 1;
-            ScoreSignals.Instance.onSendMoney?.Invoke((int)_newPriceTag);
+            //ScoreSignals.Instance.onSendMiniScore?.Invoke((int)_newPriceTag);
             UISignals.Instance.onSetMoneyValue?.Invoke((int)_newPriceTag);
             _featureManager.SaveFeatureData();
         }

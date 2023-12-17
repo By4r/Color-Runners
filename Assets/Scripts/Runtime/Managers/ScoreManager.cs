@@ -10,7 +10,7 @@ namespace Runtime.Managers
 
         #region Private Variables
 
-        [ShowInInspector] private int _money;
+        [ShowInInspector] private int _miniScore;
         [ShowInInspector] private int _stackValueMultiplier;
         [ShowInInspector] private int _scoreCache = 0;
         [ShowInInspector] private int _atmScoreValue = 0;
@@ -21,7 +21,7 @@ namespace Runtime.Managers
 
         private void Awake()
         {
-            _money = GetMoneyValue();
+            _miniScore = GetMiniScoreValue();
         }
 
         private void OnEnable()
@@ -31,8 +31,8 @@ namespace Runtime.Managers
 
         private void SubscribeEvents()
         {
-            ScoreSignals.Instance.onSendMoney += OnSendMoney;
-            ScoreSignals.Instance.onGetMoney += () => _money;
+            ScoreSignals.Instance.onSendMiniScore += OnSendMiniScore;
+            ScoreSignals.Instance.onGetMiniScore += () => _miniScore;
             ScoreSignals.Instance.onSetScore += OnSetScore;
             //ScoreSignals.Instance.onSetAtmScore += OnSetAtmScore;
 
@@ -55,15 +55,15 @@ namespace Runtime.Managers
         //     MiniGameSignals.Instance.onMiniGameStart?.Invoke();
         // }
 
-        private void OnSendMoney(int value)
+        private void OnSendMiniScore(int value)
         {
-            _money = value;
+            _miniScore = value;
         }
 
         private void OnSetScore(int setScore)
         {
             _scoreCache = setScore;
-            PlayerSignals.Instance.onSetTotalScore?.Invoke(_scoreCache);
+            //PlayerSignals.Instance.onSetTotalScore?.Invoke(_scoreCache);
         }
 
         private void OnSetAtmScore(int atmValues)
@@ -79,8 +79,8 @@ namespace Runtime.Managers
 
         private void UnSubscribeEvents()
         {
-            ScoreSignals.Instance.onSendMoney -= OnSendMoney;
-            ScoreSignals.Instance.onGetMoney -= () => _money;
+            ScoreSignals.Instance.onSendMiniScore -= OnSendMiniScore;
+            ScoreSignals.Instance.onGetMiniScore -= () => _miniScore;
             ScoreSignals.Instance.onSetScore -= OnSetScore;
             //ScoreSignals.Instance.onSetAtmScore -= OnSetAtmScore;
 
@@ -106,16 +106,16 @@ namespace Runtime.Managers
             RefreshMoney();
         }
 
-        private int GetMoneyValue()
+        private int GetMiniScoreValue()
         {
             if (!ES3.FileExists()) return 0;
-            return (int)(ES3.KeyExists("Money") ? ES3.Load<int>("Money") : 0);
+            return (int)(ES3.KeyExists("MiniScore") ? ES3.Load<int>("MiniScore") : 0);
         }
 
         private void RefreshMoney()
         {
-            _money += (int)(_scoreCache * ScoreSignals.Instance.onGetMultiplier());
-            UISignals.Instance.onSetMoneyValue?.Invoke(_money);
+            _miniScore += (int)(_scoreCache * ScoreSignals.Instance.onGetMultiplier());
+            UISignals.Instance.onSetMoneyValue?.Invoke(_miniScore);
         }
 
         private void OnReset()

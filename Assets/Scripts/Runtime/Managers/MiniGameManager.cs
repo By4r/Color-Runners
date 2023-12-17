@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
+using Runtime.Commands.Building;
 using Runtime.Controllers.MiniGame;
 using Runtime.Data.UnityObject;
 using Runtime.Data.ValueObject;
@@ -9,7 +10,7 @@ using Runtime.Signals;
 using Sirenix.OdinInspector;
 using TMPro;
 using UnityEngine;
-using UnityEngine.Serialization;
+
 
 namespace Runtime.Managers
 {
@@ -46,6 +47,8 @@ namespace Runtime.Managers
 
         private readonly string _buildDataPath = "Data/CD_Build";
 
+        private ChangeBuildingCommand _changeBuildingCommand;
+
         #endregion
 
         #endregion
@@ -55,6 +58,8 @@ namespace Runtime.Managers
             _data = GetBuildData();
 
             _scoreThresholdBuilding = _data[0].buildRequirement;
+
+            Init();
         }
 
 
@@ -90,17 +95,21 @@ namespace Runtime.Managers
 
             Debug.Log("FINAL SCORE " + _score);
 
-            //CoreGameSignals.Instance.on
 
             if (_score >= _scoreThresholdBuilding)
             {
                 //CoreGameSignals.Instance.onLevelFailed?.Invoke();
 
+                _changeBuildingCommand.Execute();
+
+
                 Debug.LogWarning("_SCORE BIGGER !");
+
+                Debug.LogWarning("BUILDING CHANGED !");
             }
             else
             {
-                //fakePlayer.DOLocalMoveY(Mathf.Clamp(_score, 0, 900), 2.7f).SetEase(Ease.Flash).SetDelay(1f);
+                Debug.LogWarning("_SCORE SMALLER !");
             }
 
             yield return new WaitForSeconds(4.5f);
@@ -119,7 +128,12 @@ namespace Runtime.Managers
 
         private void OnSendScore(int scoreValue)
         {
-            _score = scoreValue;
+            _score += scoreValue;
+
+            textMeshPro.text =
+                $"{_score} / {_scoreThresholdBuilding}";
+
+            Debug.LogWarning("ON SEND SCORE FUNCTION WORKED!");
         }
 
         private void UnSubscribeEvents()
@@ -140,7 +154,11 @@ namespace Runtime.Managers
             buildingObject = _data[0].buildingPrefab;
 
             SpawnBuildObjects(buildingObject);
+            
 
+            _score = ScoreSignals.Instance.onGetMiniScore();
+
+            Debug.LogWarning("MINI GAME SCORE :" + _score);
 
             if (textMeshPro != null)
             {
@@ -160,7 +178,8 @@ namespace Runtime.Managers
 
         private void Init()
         {
-            _initializePos = fakePlayer.localPosition;
+            //_initializePos = fakePlayer.localPosition;
+            _changeBuildingCommand = new ChangeBuildingCommand(this);
         }
 
         private void SpawnWallObjects()

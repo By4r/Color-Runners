@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   BuildDataList:
   - buildingPrefab: {fileID: 8159191065007434598, guid: 0972ac219f704d241bb571b2f7a91fc2, type: 3}
-    buildRequirement: 20
+    buildRequirement: 10
