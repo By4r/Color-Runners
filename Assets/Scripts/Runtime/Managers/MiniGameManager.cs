@@ -30,6 +30,8 @@ namespace Runtime.Managers
 
         [SerializeField] private WallCheckController wallChecker;
 
+        [SerializeField] private TextMeshPro textMeshPro;
+
         #endregion
 
         #region Private Veriables
@@ -38,6 +40,7 @@ namespace Runtime.Managers
         private float _multiplier;
         private Vector3 _initializePos;
         private int _scoreThresholdBuilding;
+        //private int _currentBuildingScore;
 
         [ShowInInspector] private List<BuildData> _data;
 
@@ -68,28 +71,38 @@ namespace Runtime.Managers
             ScoreSignals.Instance.onSendFinalScore += OnSendScore;
             ScoreSignals.Instance.onGetMultiplier += OnGetMultiplier;
             CoreGameSignals.Instance.onMiniGameStart += OnMiniGameStart;
+            //MiniGameSignals.Instance.onMiniGameStart += OnMiniGameStart;
             CoreGameSignals.Instance.onReset += OnReset;
         }
 
 
         private void OnMiniGameStart()
         {
+            Debug.LogWarning("ON MINI GAME START SIGNAL");
+
             fakePlayer.gameObject.SetActive(true);
-            StartCoroutine(GoUp());
+            StartCoroutine(GoResult());
         }
 
-        private IEnumerator GoUp()
+        private IEnumerator GoResult()
         {
             yield return new WaitForSeconds(1f);
+
+            Debug.Log("FINAL SCORE " + _score);
+
+            //CoreGameSignals.Instance.on
+
             if (_score >= _scoreThresholdBuilding)
             {
-                
                 //CoreGameSignals.Instance.onLevelFailed?.Invoke();
+
+                Debug.LogWarning("_SCORE BIGGER !");
             }
             else
             {
-                fakePlayer.DOLocalMoveY(Mathf.Clamp(_score, 0, 900), 2.7f).SetEase(Ease.Flash).SetDelay(1f);
+                //fakePlayer.DOLocalMoveY(Mathf.Clamp(_score, 0, 900), 2.7f).SetEase(Ease.Flash).SetDelay(1f);
             }
+
             yield return new WaitForSeconds(4.5f);
             CoreGameSignals.Instance.onLevelSuccessful?.Invoke();
         }
@@ -113,7 +126,7 @@ namespace Runtime.Managers
         {
             ScoreSignals.Instance.onSendFinalScore -= OnSendScore;
             ScoreSignals.Instance.onGetMultiplier -= OnGetMultiplier;
-            CoreGameSignals.Instance.onMiniGameStart -= OnMiniGameStart;
+            //MiniGameSignals.Instance.onMiniGameStart -= OnMiniGameStart;
             CoreGameSignals.Instance.onReset -= OnReset;
         }
 
@@ -125,8 +138,16 @@ namespace Runtime.Managers
         private void Start()
         {
             buildingObject = _data[0].buildingPrefab;
-            
+
             SpawnBuildObjects(buildingObject);
+
+
+            if (textMeshPro != null)
+            {
+                textMeshPro.text =
+                    $"{_score} / {_scoreThresholdBuilding}";
+            }
+
             //SpawnWallObjects();
             //SpawnFakeMoneyObjects();
             //Init();

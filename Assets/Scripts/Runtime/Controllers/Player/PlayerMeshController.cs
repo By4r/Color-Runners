@@ -22,6 +22,7 @@ namespace Runtime.Controllers.Player
         #region Private Variables
 
         [ShowInInspector] private CollectableColorData _collectableColorData;
+        
 
         #endregion
 
@@ -45,5 +46,7 @@ namespace Runtime.Controllers.Player
             //meshRenderer.materials[0] = _collectableColorData.MaterialsList[value];
             Debug.LogWarning("UPGRADED VISUAL PLAYER!");
         }
+        
+        
     }
 }

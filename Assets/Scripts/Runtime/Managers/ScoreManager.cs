@@ -35,13 +35,25 @@ namespace Runtime.Managers
             ScoreSignals.Instance.onGetMoney += () => _money;
             ScoreSignals.Instance.onSetScore += OnSetScore;
             //ScoreSignals.Instance.onSetAtmScore += OnSetAtmScore;
-            CoreGameSignals.Instance.onMiniGameStart +=
-                () => ScoreSignals.Instance.onSendFinalScore?.Invoke(_scoreCache);
+
+            //CoreGameSignals.Instance.onMiniGameReady += OnMiniGameReady;
+
+            // CoreGameSignals.Instance.onMiniGameStart +=
+            //     () => ScoreSignals.Instance.onSendFinalScore?.Invoke(_scoreCache);
             CoreGameSignals.Instance.onReset += OnReset;
             CoreGameSignals.Instance.onLevelSuccessful += RefreshMoney;
             CoreGameSignals.Instance.onLevelFailed += RefreshMoney;
             UISignals.Instance.onClickIncome += OnSetValueMultiplier;
         }
+
+        // private void OnMiniGameReady()
+        // {
+        //     Debug.LogWarning("ON MINI GAME READY");
+        //     
+        //     ScoreSignals.Instance.onSendFinalScore?.Invoke(_scoreCache);
+        //
+        //     MiniGameSignals.Instance.onMiniGameStart?.Invoke();
+        // }
 
         private void OnSendMoney(int value)
         {
@@ -71,8 +83,12 @@ namespace Runtime.Managers
             ScoreSignals.Instance.onGetMoney -= () => _money;
             ScoreSignals.Instance.onSetScore -= OnSetScore;
             //ScoreSignals.Instance.onSetAtmScore -= OnSetAtmScore;
-            CoreGameSignals.Instance.onMiniGameStart -=
-                () => ScoreSignals.Instance.onSendFinalScore?.Invoke(_scoreCache);
+
+            //CoreGameSignals.Instance.onMiniGameReady -= OnMiniGameReady;
+
+
+            // CoreGameSignals.Instance.onMiniGameStart -=
+            //     () => ScoreSignals.Instance.onSendFinalScore?.Invoke(_scoreCache);
             CoreGameSignals.Instance.onReset -= OnReset;
             CoreGameSignals.Instance.onLevelSuccessful -= RefreshMoney;
             CoreGameSignals.Instance.onLevelFailed -= RefreshMoney;

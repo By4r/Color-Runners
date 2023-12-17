@@ -37,6 +37,8 @@ namespace Runtime.Managers
 
         private readonly string _collectableDataPath = "Data/CD_Collectable";
 
+        private int _stackScoreCache;
+
         #endregion
 
         #endregion
@@ -110,11 +112,8 @@ namespace Runtime.Managers
 
         private void OnMiniGameEntered()
         {
-            DOVirtual.DelayedCall(0.25f, () =>
-            {
-                PlayerSignals.Instance.onPlayConditionChanged?.Invoke(false);
-            });
-            
+            DOVirtual.DelayedCall(0.25f, () => { PlayerSignals.Instance.onPlayConditionChanged?.Invoke(false); });
+
             //PlayerSignals.Instance.onPlayConditionChanged?.Invoke(false);
             StartCoroutine(WaitForFinal());
         }
@@ -127,6 +126,8 @@ namespace Runtime.Managers
         private void OnSetStackScore(int value)
         {
             meshController.UpdateStackScore(value);
+
+            _stackScoreCache = value;
         }
 
         private void OnReset()
@@ -170,6 +171,12 @@ namespace Runtime.Managers
             PlayerSignals.Instance.onChangePlayerAnimationState?.Invoke(PlayerAnimationStates.Idle);
             yield return new WaitForSeconds(2f);
             gameObject.SetActive(false);
+
+            
+            ScoreSignals.Instance.onSendFinalScore?.Invoke(_stackScoreCache);
+            
+            //CoreGameSignals.Instance.onMiniGameReady?.Invoke();            
+            
             CoreGameSignals.Instance.onMiniGameStart?.Invoke();
         }
 
@@ -205,11 +212,8 @@ namespace Runtime.Managers
         internal void StaticGroundObstacleState()
         {
             movementController.MoveSlowState(true);
-            
-            DOVirtual.DelayedCall(0.75f, () =>
-            {
-                ObstacleSignals.Instance.onObstacleNormalAttack?.Invoke();
-            });
+
+            DOVirtual.DelayedCall(0.75f, () => { ObstacleSignals.Instance.onObstacleNormalAttack?.Invoke(); });
         }
     }
 }
