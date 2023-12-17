@@ -10,7 +10,7 @@ namespace Runtime.Managers
         private void OnEnable()
         {
             SubscribeEvents();
-            OpenStartPanel();
+            //OpenStartPanel();
         }
 
         private void SubscribeEvents()
@@ -31,7 +31,14 @@ namespace Runtime.Managers
 
         private void OnLevelInitialize(byte levelValue)
         {
-            CoreUISignals.Instance.onOpenPanel?.Invoke(UIPanelTypes.Start, 0);
+            //CoreUISignals.Instance.onOpenPanel?.Invoke(UIPanelTypes.Start, 0);
+            CoreUISignals.Instance.onOpenPanel?.Invoke(UIPanelTypes.Level, 1);
+            //Instance.onOpenPanel?.Invoke(UIPanelTypes.Shop, 2);
+            UISignals.Instance.onSetNewLevelValue?.Invoke(levelValue);
+        }
+
+        private void OnCurrentInitialize(byte levelValue)
+        {
             CoreUISignals.Instance.onOpenPanel?.Invoke(UIPanelTypes.Level, 1);
             CoreUISignals.Instance.onOpenPanel?.Invoke(UIPanelTypes.Shop, 2);
             UISignals.Instance.onSetNewLevelValue?.Invoke(levelValue);
@@ -41,7 +48,8 @@ namespace Runtime.Managers
         {
             CoreGameSignals.Instance.onPlay?.Invoke();
             CoreUISignals.Instance.onClosePanel?.Invoke(0);
-            CoreUISignals.Instance.onClosePanel?.Invoke(2);
+            //CoreUISignals.Instance.onClosePanel?.Invoke(1);
+            //CoreUISignals.Instance.onClosePanel?.Invoke(2);
             CameraSignals.Instance.onChangeCameraState?.Invoke(CameraStates.Follow);
         }
 
@@ -57,6 +65,7 @@ namespace Runtime.Managers
 
         public void OnNextLevel()
         {
+            CoreUISignals.Instance.onCloseAllPanels?.Invoke();
             CoreGameSignals.Instance.onNextLevel?.Invoke();
             CoreGameSignals.Instance.onReset?.Invoke();
         }

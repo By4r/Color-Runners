@@ -121,7 +121,6 @@ namespace Runtime.Managers
         private void OnReset()
         {
             _scoreCache = 0;
-            _atmScoreValue = 0;
         }
     }
 }

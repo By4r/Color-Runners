@@ -173,11 +173,18 @@ namespace Runtime.Managers
             ScoreSignals.Instance.onSendMiniScore?.Invoke(_stackScoreCache);
         }
 
+        
+        [Button("CLEAR STACK")]
+        private void ClearStack()
+        {
+            StackSignals.Instance.onClearStack?.Invoke();
+        }
+
         private IEnumerator WaitForFinal()
         {
             PlayerSignals.Instance.onChangePlayerAnimationState?.Invoke(PlayerAnimationStates.Idle);
             yield return new WaitForSeconds(2f);
-            gameObject.SetActive(false);
+            //gameObject.SetActive(false);
 
             ScoreSignals.Instance.onSendMiniScore?.Invoke(_stackScoreCache);
             

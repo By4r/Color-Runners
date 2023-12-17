@@ -9,6 +9,7 @@ namespace Runtime.Signals
         public UnityAction<GameObject> onInteractionATM = delegate { };
         public UnityAction<GameObject> onInteractionObstacle = delegate { };
         public UnityAction<GameObject> onInteractionCollectable = delegate { };
+        public UnityAction onClearStack = delegate { };
         public UnityAction onInteractionObstacleWithPlayer = delegate { };
         public UnityAction<Vector2> onStackFollowPlayer = delegate { };
         public UnityAction onUpdateType = delegate { };

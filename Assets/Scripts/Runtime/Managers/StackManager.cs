@@ -48,6 +48,8 @@ namespace Runtime.Managers
         private StackInteractionWithConveyorCommand _stackInteractionWithConveyorCommand;
         private StackInitializerCommand _stackInitializerCommand;
 
+        private StackClearCommand _stackClearCommand;
+
         private readonly string _stackDataPath = "Data/CD_Stack";
 
         #endregion
@@ -72,6 +74,7 @@ namespace Runtime.Managers
             _stackInteractionWithConveyorCommand = new StackInteractionWithConveyorCommand(this, ref _collectableStack);
             StackTypeUpdaterCommand = new StackTypeUpdaterCommand(ref _collectableStack);
             _stackInitializerCommand = new StackInitializerCommand(this, ref collectableStickMan);
+            _stackClearCommand = new StackClearCommand(this, ref _collectableStack);
         }
 
         private StackData GetStackData()
@@ -97,6 +100,7 @@ namespace Runtime.Managers
             CoreGameSignals.Instance.onPlay += OnPlay;
             CoreGameSignals.Instance.onReset += OnReset;
             StackSignals.Instance.onUpdateAnimation += OnUpdateAnimation;
+            StackSignals.Instance.onClearStack += _stackClearCommand.Execute;
         }
 
 
@@ -153,7 +157,7 @@ namespace Runtime.Managers
         internal void OnSetStackAmount()
         {
             _currentStickManAmount = _collectableStack.Count; // ! ( +1 CAN BE ADDE )[+ WITH PLAYER] [OPTIONAL] 
-            
+
             PlayerSignals.Instance.onSetStackScore?.Invoke(_currentStickManAmount);
         }
 
@@ -171,6 +175,7 @@ namespace Runtime.Managers
             CoreGameSignals.Instance.onPlay -= OnPlay;
             CoreGameSignals.Instance.onReset -= OnReset;
             StackSignals.Instance.onUpdateAnimation -= OnUpdateAnimation;
+            StackSignals.Instance.onClearStack -= _stackClearCommand.Execute;
         }
 
         private void OnDisable()

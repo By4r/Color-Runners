@@ -296,7 +296,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   levelHolder: {fileID: 172439187}
-  totalLevelCount: 6
+  totalLevelCount: 2
 --- !u!1 &142454573
 GameObject:
   m_ObjectHideFlags: 0

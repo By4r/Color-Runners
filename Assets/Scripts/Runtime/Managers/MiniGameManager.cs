@@ -102,7 +102,7 @@ namespace Runtime.Managers
 
                 _changeBuildingCommand.Execute();
 
-
+                
                 Debug.LogWarning("_SCORE BIGGER !");
 
                 Debug.LogWarning("BUILDING CHANGED !");
@@ -111,8 +111,10 @@ namespace Runtime.Managers
             {
                 Debug.LogWarning("_SCORE SMALLER !");
             }
-
-            yield return new WaitForSeconds(4.5f);
+            
+            
+            yield return new WaitForSeconds(1f);
+            //StackSignals.Instance.onClearStack?.Invoke();
             CoreGameSignals.Instance.onLevelSuccessful?.Invoke();
         }
 

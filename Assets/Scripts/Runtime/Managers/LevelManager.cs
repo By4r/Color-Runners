@@ -45,13 +45,18 @@ namespace Runtime.Managers
             SubscribeEvents();
 
             _currentLevel = GetLevelID();
-            CoreGameSignals.Instance.onLevelInitialize?.Invoke(_currentLevel);
+            //CoreGameSignals.Instance.onLevelInitialize?.Invoke(_currentLevel);
         }
 
 
         private void Start()
         {
+            
+            CoreGameSignals.Instance.onLevelInitialize?.Invoke(_currentLevel);
             CoreUISignals.Instance.onOpenPanel?.Invoke(UIPanelTypes.Start,0);
+
+            
+            //CoreUISignals.Instance.onOpenPanel?.Invoke(UIPanelTypes.Level,1);
         }
 
         private void SubscribeEvents()
@@ -59,6 +64,7 @@ namespace Runtime.Managers
             CoreGameSignals.Instance.onLevelInitialize += _levelLoader.Execute;
             CoreGameSignals.Instance.onClearActiveLevel += _levelDestroyer.Execute;
             CoreGameSignals.Instance.onGetLevelID += GetLevelID;
+            CoreGameSignals.Instance.onCurrentLevel += OnCurrentLevel;
             CoreGameSignals.Instance.onNextLevel += OnNextLevel;
             CoreGameSignals.Instance.onRestartLevel += OnRestartLevel;
         }
@@ -68,6 +74,7 @@ namespace Runtime.Managers
             CoreGameSignals.Instance.onLevelInitialize -= _levelLoader.Execute;
             CoreGameSignals.Instance.onClearActiveLevel -= _levelDestroyer.Execute;
             CoreGameSignals.Instance.onGetLevelID -= GetLevelID;
+            CoreGameSignals.Instance.onCurrentLevel -= OnCurrentLevel;
             CoreGameSignals.Instance.onNextLevel -= OnNextLevel;
             CoreGameSignals.Instance.onRestartLevel -= OnRestartLevel;
         }
@@ -84,13 +91,23 @@ namespace Runtime.Managers
             return (byte)(ES3.KeyExists("Level") ? ES3.Load<int>("Level") % totalLevelCount : 0);
         }
 
+        private void OnCurrentLevel()
+        {
+            SaveSignals.Instance.onSaveGameData?.Invoke();
+            CoreGameSignals.Instance.onClearActiveLevel?.Invoke();
+            CoreGameSignals.Instance.onLevelInitialize?.Invoke(GetLevelID());
+        }
+        
 
         private void OnNextLevel()
         {
             _currentLevel++;
             SaveSignals.Instance.onSaveGameData?.Invoke();
             CoreGameSignals.Instance.onClearActiveLevel?.Invoke();
-            CoreGameSignals.Instance.onLevelInitialize?.Invoke(GetLevelID());
+            CoreUISignals.Instance.onOpenPanel?.Invoke(UIPanelTypes.Start,0);
+            //CoreGameSignals.Instance.onLevelInitialize?.Invoke(GetLevelID());
+            CoreGameSignals.Instance.onLevelInitialize?.Invoke(_currentLevel);
+
         }
 
         private void OnRestartLevel()
