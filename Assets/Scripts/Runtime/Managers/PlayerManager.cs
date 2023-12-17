@@ -184,7 +184,7 @@ namespace Runtime.Managers
         {
             PlayerSignals.Instance.onChangePlayerAnimationState?.Invoke(PlayerAnimationStates.Idle);
             yield return new WaitForSeconds(2f);
-            //gameObject.SetActive(false);
+            gameObject.SetActive(false);
 
             ScoreSignals.Instance.onSendMiniScore?.Invoke(_stackScoreCache);
             

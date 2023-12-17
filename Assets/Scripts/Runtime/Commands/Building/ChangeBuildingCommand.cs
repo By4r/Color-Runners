@@ -17,15 +17,18 @@ namespace Runtime.Commands.Building
             if (_miniGameManager != null)
             {
                 // Assuming Building1 is the second child of MiniGameManager
-                Transform building1 = _miniGameManager.transform.GetChild(2);
+                Transform building1 = _miniGameManager.transform.GetChild(1);
 
                 if (building1 != null)
                 {
+                    Debug.Log("Building1 found as the second child of MiniGameManager.");
+
                     // Set the second child of Building1 to inactive
                     Transform secondChild = building1.GetChild(1);
                     if (secondChild != null)
                     {
                         secondChild.gameObject.SetActive(false);
+                        Debug.Log("Second child deactivated.");
                     }
 
                     // Set the third child of Building1 to active
@@ -33,6 +36,7 @@ namespace Runtime.Commands.Building
                     if (thirdChild != null)
                     {
                         thirdChild.gameObject.SetActive(true);
+                        Debug.Log("Third child activated.");
                     }
                 }
                 else

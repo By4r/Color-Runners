@@ -23,8 +23,6 @@ namespace Runtime.Managers
         [ShowInInspector] private GameObject buildingObject;
 
         [SerializeField] private GameObject wallObject;
-        [SerializeField] private GameObject fakeMoneyObject;
-        [SerializeField] private Transform fakePlayer;
         [SerializeField] private Material mat;
 
         [SerializeField] private short wallCount, fakeMoneyCount;
@@ -85,7 +83,7 @@ namespace Runtime.Managers
         {
             Debug.LogWarning("ON MINI GAME START SIGNAL");
 
-            fakePlayer.gameObject.SetActive(true);
+
             StartCoroutine(GoResult());
         }
 
@@ -102,7 +100,7 @@ namespace Runtime.Managers
 
                 _changeBuildingCommand.Execute();
 
-                
+
                 Debug.LogWarning("_SCORE BIGGER !");
 
                 Debug.LogWarning("BUILDING CHANGED !");
@@ -111,10 +109,10 @@ namespace Runtime.Managers
             {
                 Debug.LogWarning("_SCORE SMALLER !");
             }
-            
-            
-            yield return new WaitForSeconds(1f);
-            //StackSignals.Instance.onClearStack?.Invoke();
+
+            StackSignals.Instance.onClearStack?.Invoke();
+
+            yield return new WaitForSeconds(2.5f);
             CoreGameSignals.Instance.onLevelSuccessful?.Invoke();
         }
 
@@ -156,7 +154,7 @@ namespace Runtime.Managers
             buildingObject = _data[0].buildingPrefab;
 
             SpawnBuildObjects(buildingObject);
-            
+
 
             _score = ScoreSignals.Instance.onGetMiniScore();
 
@@ -194,14 +192,6 @@ namespace Runtime.Managers
             }
         }
 
-        private void SpawnFakeMoneyObjects()
-        {
-            for (int i = 0; i < fakeMoneyCount; i++)
-            {
-                var ob = Instantiate(fakeMoneyObject, fakePlayer);
-                ob.transform.localPosition = new Vector3(0, -i * 1.58f, -7);
-            }
-        }
 
         private void ResetWalls()
         {
@@ -216,15 +206,6 @@ namespace Runtime.Managers
         {
             StopAllCoroutines();
             DOTween.KillAll();
-            ResetWalls();
-            ResetFakePlayer();
-        }
-
-        private void ResetFakePlayer()
-        {
-            fakePlayer.gameObject.SetActive(false);
-            fakePlayer.localPosition = _initializePos;
-            wallChecker.OnReset();
         }
     }
 }
