@@ -2,7 +2,6 @@
 using Runtime.Enums;
 using Runtime.Managers;
 using Runtime.Signals;
-using Unity.VisualScripting;
 using UnityEngine;
 
 namespace Runtime.Commands.Obstacle

@@ -7,7 +7,5 @@ namespace Runtime.Enums
         Win,
         Fail,
         Shop,
-
-        //*ADDITION*//
     }
 }

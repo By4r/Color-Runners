@@ -118,11 +118,6 @@ namespace Runtime.Managers
             Debug.LogWarning("SELECTED ANIMATION STATE CHANGED");
         }
 
-        public void InteractionWithAtm(GameObject collectableGameObject)
-        {
-            StackSignals.Instance.onInteractionATM?.Invoke(collectableGameObject);
-        }
-
         public void InteractionWithObstacle(GameObject collectableGameObject)
         {
             StackSignals.Instance.onInteractionObstacle?.Invoke(collectableGameObject);

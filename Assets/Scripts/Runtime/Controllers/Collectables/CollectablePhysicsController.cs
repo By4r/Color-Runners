@@ -29,7 +29,6 @@ namespace Runtime.Controllers.Collectables
         private readonly string _gateBlue = "Gate Blue";
         private readonly string _gateGreen = "Gate Green";
 
-        private readonly string _atm = "ATM";
         private readonly string _obstacle = "Obstacle";
         private readonly string _conveyor = "Conveyor";
 
@@ -41,32 +40,11 @@ namespace Runtime.Controllers.Collectables
 
         private void OnTriggerEnter(Collider other)
         {
-            /*if (other.CompareTag(_collectable) && CompareTag(_collected))
-            {
-                if (manager.playerColorType == manager.collectableColorType)
-                {
-                    Debug.LogWarning("SAME !!!");
-                    
-                    other.tag = _collected;
-                    manager.InteractionWithCollectable(other.transform.parent.gameObject);
-                }
-                else
-                {
-                    manager.InteractionWithObstacle(transform.parent.gameObject);
-                }
-
-            }*/
-
             if (other.CompareTag(_gate) && CompareTag(_collected))
             {
                 manager.CollectableUpgrade(manager.GetCurrentValue());
             }
-
-            if (other.CompareTag(_atm) && CompareTag(_collected))
-            {
-                manager.InteractionWithAtm(transform.parent.gameObject);
-            }
-
+            
             if (other.CompareTag(_obstacle) && CompareTag(_collected))
             {
                 manager.InteractionWithObstacle(transform.parent.gameObject);

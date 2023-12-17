@@ -26,11 +26,9 @@ namespace Runtime.Controllers.Player
         private bool _isColorMatchFailed;
 
         private readonly string _obstacle = "Obstacle";
-        private readonly string _atm = "ATM";
         private readonly string _collectable = "Collectable";
         private readonly string _conveyor = "Conveyor";
-        
-        
+
 
         #region Color Changer Gates Tags
 
@@ -71,12 +69,6 @@ namespace Runtime.Controllers.Player
                 return;
             }
 
-            if (other.CompareTag(_atm))
-            {
-                CoreGameSignals.Instance.onAtmTouched?.Invoke(other.gameObject);
-                return;
-            }
-
             if (other.CompareTag(_collectable))
             {
                 CollectableManager collectableManager = other.transform.parent.GetComponent<CollectableManager>();
@@ -114,11 +106,6 @@ namespace Runtime.Controllers.Player
             if (other.CompareTag(_conveyor))
             {
                 CoreGameSignals.Instance.onMiniGameEntered?.Invoke();
-                // DOVirtual.DelayedCall(1.5f,
-                //     () => CameraSignals.Instance.onChangeCameraState?.Invoke(CameraStates.MiniGame));
-                // DOVirtual.DelayedCall(2.5f,
-                //     () => CameraSignals.Instance.onSetCinemachineTarget?.Invoke(CameraTargetState.FakePlayer));
-                // return;
             }
 
             if (other.CompareTag(_gateBlue))
@@ -147,8 +134,6 @@ namespace Runtime.Controllers.Player
 
             if (other.CompareTag(_colorfulObstacle))
             {
-                //playerManager.SetSlowSpeed();
-                
                 playerManager.StaticGroundObstacleState();
 
                 Debug.LogWarning("PLAYER SPEED STATE IS SLOW ! ");
@@ -175,9 +160,9 @@ namespace Runtime.Controllers.Player
                 if (otherColor == playerManager.playerColorType.ToString())
                 {
                     _isColorMatchFailed = false;
-                    
+
                     Debug.LogWarning("GROUND COLOR SAME !");
-                    
+
                     ObstacleSignals.Instance.onObstacleColorMatch?.Invoke(!_isColorMatchFailed);
                 }
                 else if (otherColor != playerManager.playerColorType.ToString())
@@ -187,7 +172,7 @@ namespace Runtime.Controllers.Player
                     Debug.LogWarning("PLAYER COLOR " + playerColor);
 
                     Debug.LogWarning("GROUND COLOR DOESN'T MATCH!");
-                    
+
                     ObstacleSignals.Instance.onObstacleColorMatch?.Invoke(!_isColorMatchFailed);
                 }
             }
@@ -215,7 +200,7 @@ namespace Runtime.Controllers.Player
         private void ResetColorMatchState()
         {
             _isColorMatchFailed = false;
-            
+
             ObstacleSignals.Instance.onObstacleColorMatch?.Invoke(!_isColorMatchFailed);
         }
     }

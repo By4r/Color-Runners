@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
 using Runtime.Commands.Building;
-using Runtime.Controllers.MiniGame;
 using Runtime.Data.UnityObject;
 using Runtime.Data.ValueObject;
 using Runtime.Signals;
@@ -24,11 +23,6 @@ namespace Runtime.Managers
 
         [SerializeField] private GameObject wallObject;
         [SerializeField] private Material mat;
-
-        [SerializeField] private short wallCount, fakeMoneyCount;
-
-        [SerializeField] private WallCheckController wallChecker;
-
         [SerializeField] private TextMeshPro textMeshPro;
 
         #endregion
@@ -74,7 +68,6 @@ namespace Runtime.Managers
             ScoreSignals.Instance.onSendFinalScore += OnSendScore;
             ScoreSignals.Instance.onGetMultiplier += OnGetMultiplier;
             CoreGameSignals.Instance.onMiniGameStart += OnMiniGameStart;
-            //MiniGameSignals.Instance.onMiniGameStart += OnMiniGameStart;
             CoreGameSignals.Instance.onReset += OnReset;
         }
 
@@ -96,8 +89,6 @@ namespace Runtime.Managers
 
             if (_score >= _scoreThresholdBuilding)
             {
-                //CoreGameSignals.Instance.onLevelFailed?.Invoke();
-
                 _changeBuildingCommand.Execute();
 
 
@@ -140,7 +131,7 @@ namespace Runtime.Managers
         {
             ScoreSignals.Instance.onSendFinalScore -= OnSendScore;
             ScoreSignals.Instance.onGetMultiplier -= OnGetMultiplier;
-            //MiniGameSignals.Instance.onMiniGameStart -= OnMiniGameStart;
+            CoreGameSignals.Instance.onMiniGameStart -= OnMiniGameStart;
             CoreGameSignals.Instance.onReset -= OnReset;
         }
 
@@ -165,10 +156,6 @@ namespace Runtime.Managers
                 textMeshPro.text =
                     $"{_score} / {_scoreThresholdBuilding}";
             }
-
-            //SpawnWallObjects();
-            //SpawnFakeMoneyObjects();
-            //Init();
         }
 
         private void SpawnBuildObjects(GameObject buildingGameObject)
@@ -178,29 +165,9 @@ namespace Runtime.Managers
 
         private void Init()
         {
-            //_initializePos = fakePlayer.localPosition;
             _changeBuildingCommand = new ChangeBuildingCommand(this);
         }
 
-        private void SpawnWallObjects()
-        {
-            for (int i = 0; i <= wallCount; i++)
-            {
-                var ob = Instantiate(wallObject, transform);
-                ob.transform.localPosition = new Vector3(0, i * 10, 0);
-                ob.transform.GetChild(0).GetComponent<TextMeshPro>().text = "x" + ((i / 10f) + 1f);
-            }
-        }
-
-
-        private void ResetWalls()
-        {
-            for (int i = 1; i < wallCount; i++)
-            {
-                transform.GetChild(i).GetComponent<Renderer>().material = mat;
-                transform.GetChild(i).transform.position = Vector3.zero;
-            }
-        }
 
         private void OnReset()
         {

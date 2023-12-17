@@ -92,7 +92,6 @@ namespace Runtime.Managers
             StackSignals.Instance.onInteractionCollectable += OnInteractionWithCollectable;
             StackSignals.Instance.onInteractionObstacle += _itemRemoverOnStackCommand.Execute;
             StackSignals.Instance.onInteractionObstacleWithPlayer += _lastItemRemoverCommand.Execute;
-            //StackSignals.Instance.onInteractionATM += OnInteractionWithATM;
             StackSignals.Instance.onInteractionConveyor +=
                 _stackInteractionWithConveyorCommand.Execute;
             StackSignals.Instance.onStackFollowPlayer += OnStackMove;
@@ -126,20 +125,6 @@ namespace Runtime.Managers
             }
         }
 
-        /*private void OnInteractionWithATM(GameObject collectableGameObject)
-        {
-            ScoreSignals.Instance.onSetAtmScore?.Invoke((int)collectableGameObject.GetComponent<CollectableManager>()
-                .GetCurrentValue() + 1);
-            if (LastCheck == false)
-            {
-                _itemRemoverOnStackCommand.Execute(collectableGameObject);
-            }
-            else
-            {
-                collectableGameObject.SetActive(false);
-            }
-        }*/
-
         private void OnInteractionWithCollectable(GameObject collectableGameObject)
         {
             DOTween.Complete(StackJumperCommand);
@@ -167,7 +152,6 @@ namespace Runtime.Managers
             StackSignals.Instance.onInteractionCollectable -= OnInteractionWithCollectable;
             StackSignals.Instance.onInteractionObstacle -= _itemRemoverOnStackCommand.Execute;
             StackSignals.Instance.onInteractionObstacleWithPlayer -= _lastItemRemoverCommand.Execute;
-            //StackSignals.Instance.onInteractionATM -= OnInteractionWithATM;
             StackSignals.Instance.onInteractionConveyor -=
                 _stackInteractionWithConveyorCommand.Execute;
             StackSignals.Instance.onStackFollowPlayer -= OnStackMove;
